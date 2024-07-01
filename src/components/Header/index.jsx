@@ -15,6 +15,10 @@ function Header() {
           name: 'On & Off Ramps',
           path: '/on-off-ramps',
         },
+        {
+          name: 'Today’s cryptocurrency prices',
+          linkPath: 'https://b2c2-quote.s3.eu-west-2.amazonaws.com/index.html',
+        },
       ],
     },
     {
@@ -104,7 +108,6 @@ function Header() {
                   onClick={() => {
                     setMenuList(
                       menuList.map((a, aIndex) => {
-                        console.log(a, 'aaa')
                         if (index === aIndex) {
                           return {
                             ...a,
@@ -132,7 +135,11 @@ function Header() {
                       className="menu-child"
                       onClick={() => {
                         setVisible(false)
-                        navigate(i.path)
+                        if (i.path) {
+                          navigate(i.path)
+                        } else {
+                          window.location.href = i.linkPath
+                        }
                       }}>
                       {i.name}
                     </div>
