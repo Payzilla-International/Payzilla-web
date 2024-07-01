@@ -6,7 +6,8 @@ import humanCentric from '../../assets/images/human-centric.png'
 import veriff from '../../assets/images/veriff.jpg'
 import coinfirm from '../../assets/images/coinfirm-logo.png'
 import fireblocks from '../../assets/images/fireblocks-logo.png'
-import cmp from '../../assets/images/cmp.png'
+import cmp from '../../assets/images/logo_finanzmarktaufsicht-liechtenstein.jpeg'
+import tablepic from '../../assets/images/table.png'
 import { Swiper } from 'antd-mobile'
 
 function Aboutus() {
@@ -48,7 +49,9 @@ function Aboutus() {
           https://register.fma-li.li/search?searchText=payzilla
         </a>
         <img src={cmp} alt="" />
+        <img src={tablepic} alt="" />
       </div>
+
       <div className="corevalues-wrap">
         <div className="title1">Our Core Values</div>
         <div>

@@ -5,12 +5,12 @@ const pxtorem = require('postcss-pxtorem')
 module.exports = {
 
   devServer: {
-    proxy: {
-      "/": {
-        target: 'http://192.168.110.180:14000/',
-        changeOrigin: true,
-      }
-    }
+    // proxy: {
+    //   "/": {
+    //     target: 'http://192.168.110.180:14000/',
+    //     changeOrigin: true,
+    //   }
+    // }
   },
   style: {
     postcss: {
