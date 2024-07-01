@@ -96,7 +96,7 @@ function Header() {
           paddingTop: '30px',
           boxSizing: 'border-box',
         }}>
-        <div style={{ paddingTop: '30px' }}>
+        <div style={{ paddingTop: '30px' }} className="popup-inner-wrap">
           {menuList.map((item, index) => {
             return (
               <div className="menu-item" key={index}>
