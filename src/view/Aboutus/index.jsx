@@ -6,6 +6,7 @@ import humanCentric from '../../assets/images/human-centric.png'
 import veriff from '../../assets/images/veriff.jpg'
 import coinfirm from '../../assets/images/coinfirm-logo.png'
 import fireblocks from '../../assets/images/fireblocks-logo.png'
+import cmp from '../../assets/images/cmp.png'
 import { Swiper } from 'antd-mobile'
 
 function Aboutus() {
@@ -26,6 +27,27 @@ function Aboutus() {
           start, run, and scale. In practice, this means enabling them to pay
           and spend with minimise cost.
         </p>
+      </div>
+      <div className="title4">About Payzilla 's service</div>
+      <div className="qualification-wrap">
+        <div>
+          The Financial Market Authority (FMA) Liechtenstein has examined
+          Payzilla’s business model for providing on and off-ramping services
+          and has determined that it complies with the registration requirements
+          set forth in Article 13 of the TVTG.
+        </div>
+        <div>
+          Payzilla International AG has successfully registered as VT service
+          provider within the meaning of Art. 12 Para. 1 TVTG. on 31.01.2024
+        </div>
+        <div>
+          Please visit the FMA Liechtenstein website for the registration
+          detail:
+        </div>
+        <a href="https://register.fma-li.li/search?searchText=payzilla">
+          https://register.fma-li.li/search?searchText=payzilla
+        </a>
+        <img src={cmp} alt="" />
       </div>
       <div className="corevalues-wrap">
         <div className="title1">Our Core Values</div>
