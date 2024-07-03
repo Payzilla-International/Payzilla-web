@@ -1,17 +1,29 @@
-import { Form, Input, Button } from 'antd-mobile'
+import { Button } from 'antd-mobile'
+import { sendCode, verifyCodeCheck } from '../../utils/api'
 import './index.less'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Toast } from 'antd-mobile'
 export default function EmailCheck() {
+  const navigate = useNavigate()
   const [codeText, SetCodeText] = useState('Get code')
-  let [count, setCount] = useState(10)
+  let [count, setCount] = useState(60)
   const [disabled, setDisabled] = useState(false)
+  const [email, setEmail] = useState('')
+  const [errorEmail, setErrorEmail] = useState('')
+  const [errorCode, setErrorCode] = useState('')
+  const [verifyCode, setVerifyCode] = useState('')
   const getCode = () => {
+    if (errorEmail || !email) {
+      return setErrorEmail('Email is not correct.!')
+    }
     setDisabled(true)
+    sendCode({ email })
     SetCodeText(`Get code(${count}s)`)
     let timer = setInterval(() => {
       if (count === 0) {
         SetCodeText('Get code')
-        setCount(10)
+        setCount(60)
         clearInterval(timer)
         setDisabled(false)
         return
@@ -20,67 +32,58 @@ export default function EmailCheck() {
       SetCodeText(`Get code(${count}s)`)
     }, 1000)
   }
-  const EmailcheckFun = (_, email) => {
-    if (!email) {
-      return Promise.reject(new Error('Email is not correct.!'))
-    }
+  const emailcheckFun = (email) => {
     const emailRegex =
-      /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+      /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/ // eslint-disable-line
     if (!emailRegex.test(email)) {
-      return Promise.reject(new Error('Email is not correct.!'))
+      setErrorEmail('Email is not correct.!')
+    } else {
+      setErrorEmail('')
     }
-    return Promise.resolve()
+  }
+  const codeCheckFun = (code) => {
+    if (!code || code.length !== 6) {
+      setErrorCode('Email verification code is error!')
+    } else {
+      setErrorCode('')
+    }
+  }
+  const submit = async () => {
+    if (errorEmail || !email) {
+      setErrorEmail('Email is not correct.!')
+    }
+    if (!verifyCode || errorCode) {
+      setErrorCode('Email verification code is error!')
+    }
+    if (!errorEmail && email && !errorCode && verifyCode) {
+      let { data } = await verifyCodeCheck({ email, verifyCode })
+      sessionStorage.setItem('email', email)
+      if (data.data.veriffFlag === 0) {
+        navigate('/veriff?email=' + email)
+      } else if (data.data.veriffFlag === 1) {
+        navigate('/buy?email=' + email)
+      } else {
+        Toast.show({
+          content: 'Verification failure!',
+        })
+      }
+    }
   }
   return (
     <div className="email-check-wrap">
       <div className="title">Email verification code check</div>
-      {/* <Form
-        layout="horizontal"
-        mode="card"
-        className="form-wrap"
-        footer={
-          <Button
-            block
-            type="submit"
-            style={{ 'background-color': '#3553b0', color: '#fff' }}
-            size="large">
-            Verify
-          </Button>
-        }>
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[
-            { required: true, message: 'Email address is empty！' },
-            { validator: EmailcheckFun },
-          ]}>
-          <Input placeholder="Enter your email" />
-        </Form.Item>
-        <Form.Item
-          name="code"
-          label="code"
-          extra={
-            <div
-              className={`${
-                !disabled ? 'code-button' : 'code-button not-clickable'
-              }`}
-              onClick={getCode}>
-              {codeText}
-            </div>
-          }
-          rules={[{ required: true, message: 'code is empty！' }]}>
-          <Input placeholder="Enter Code" />
-        </Form.Item>
-      </Form> */}
-
       <div className="email-check-wrap">
         <div className="inp-wrap">
           <input
             type="text"
             style={{ width: '100%' }}
             placeholder="Enter your email"
+            onChange={(e) => {
+              emailcheckFun(e.target.value)
+              setEmail(e.target.value)
+            }}
           />
-          {/* <div className="tips">Email is not correct.! </div> */}
+          {errorEmail && <div className="tips">{errorEmail} </div>}
         </div>
         <div className="inp-wrap">
           <div className="code-wrap">
@@ -88,6 +91,10 @@ export default function EmailCheck() {
               type="text"
               style={{ width: '60%' }}
               placeholder="6-digit email code"
+              onChange={(e) => {
+                codeCheckFun(e.target.value)
+                setVerifyCode(e.target.value)
+              }}
             />
             <div
               className={`${!disabled ? 'code-btn' : 'code-btn not-clickable'}`}
@@ -95,18 +102,20 @@ export default function EmailCheck() {
               {codeText}
             </div>
           </div>
-          {/* <div className="tips">Email is not correct.! </div> */}
+          {errorCode && <div className="tips">{errorCode} </div>}
         </div>
         <Button
           block
-          type="submit"
+          onClick={() => {
+            submit()
+          }}
           style={{
-            'background-color': '#3553b0',
+            backgroundColor: '#3553b0',
             color: '#fff',
             marginTop: '20px',
           }}
           size="large">
-          Verify
+          Confirm
         </Button>
       </div>
     </div>

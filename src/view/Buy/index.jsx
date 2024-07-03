@@ -3,16 +3,28 @@ import './index.less'
 import AmountInput from '../../components/common/Input/AmountInput'
 import SelectInput from '../../components/common/Input/SelectInput'
 import { Button } from 'antd-mobile'
+import { getQuote } from '../../utils/api'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 export default function Buy() {
+  const navigate = useNavigate()
+  const [params] = useSearchParams()
+  const email = params.get('email')
   const [count, setCount] = useState(10)
   const [fiatAmount, setFiatAmount] = useState('0.00')
   const [cryptoAmount, setCryptoAmount] = useState('0.00000')
-  const [currencyId, setCurrencyId] = useState(1)
-  const [cryptoId, setCryptoId] = useState(4)
+  const [currencyId] = useState(1)
+  const [cryptoId] = useState(4)
+  const [disabled, setDisabled] = useState(true)
+  // const [quote, setQuote] = useState({
+  //   liquidityPool: 'B2C2',
+  //   liquidityQuotes: '1.00150000',
+  // })
+  const [quote, setQuote] = useState({})
   useEffect(() => {
     let timer = setTimeout(async () => {
-      if (count == 0) {
+      if (count === 0) {
         setCount(10)
+        getQuoteFun()
         return
       } else {
         setCount(count - 1)
@@ -22,6 +34,61 @@ export default function Buy() {
       clearTimeout(timer)
     }
   }, [count])
+  useEffect(() => {
+    getQuoteFun()
+  }, [])
+  useEffect(() => {
+    if (fiatAmount && Number(fiatAmount) > 0) {
+      setDisabled(false)
+    } else {
+      setDisabled(true)
+    }
+  }, [fiatAmount])
+  async function getQuoteFun() {
+    let { data } = await getQuote({
+      quantity: 1,
+      crypto: 'UST',
+      currency: 'USD',
+      side: 'buy',
+    })
+    setQuote(data.data)
+    if (fiatAmount && Number(fiatAmount) > 0) {
+      setCryptoAmount(getCrypto(fiatAmount || 0, quote))
+    }
+  }
+  const getCrypto = (amount, quote) => {
+    if (amount == 0) return '0.00000'
+    return Math.max(+amount / +quote.liquidityQuotes, 0).toFixed(5)
+  }
+
+  const getFiat = (amount, quote) => {
+    if (amount == 0) return '0.00'
+    return Math.max(+amount * +quote.liquidityQuotes, 0).toFixed(2)
+  }
+  const onChangeFiatAmount = (value) => {
+    setFiatAmount(value)
+    let newValue = +value
+    setCryptoAmount(getCrypto(newValue || 0, quote))
+  }
+
+  const onChangeCryptoAmount = (value) => {
+    setCryptoAmount(value)
+    setFiatAmount(getFiat(parseFloat(value || '0'), quote))
+  }
+  const submitEvent = () => {
+    navigate('/wallet-address', {
+      state: {
+        email,
+        orderType: 'buy',
+        quantity: cryptoAmount,
+        referenceQuotes: quote.liquidityQuotes,
+        referenceAmt: fiatAmount,
+        crypto: 'UST',
+        currency: 'USD',
+      },
+    })
+  }
+
   return (
     <div className="buyWrap pb24">
       <div className="pd-lr-16">
@@ -36,7 +103,8 @@ export default function Buy() {
               label="Amount"
               value={fiatAmount}
               onChange={(value) => {
-                setFiatAmount(value)
+                // setFiatAmount(value)
+                onChangeFiatAmount(value)
               }}
             />
           </div>
@@ -51,7 +119,7 @@ export default function Buy() {
               label="Amount"
               value={cryptoAmount}
               onChange={(value) => {
-                setCryptoAmount(value)
+                onChangeCryptoAmount(value)
               }}
             />
           </div>
@@ -61,14 +129,14 @@ export default function Buy() {
         </div>
         <div className="fee-wrap pd15">
           <div className="title">
-            You get <span>{cryptoAmount} USDT</span> for
-            <span> ${fiatAmount}</span>
+            You get <span>{Number(cryptoAmount).toFixed(5)} USDT</span> for
+            <span> ${Number(fiatAmount).toFixed(2)}</span>
           </div>
           <div>
             <div>
-              {cryptoAmount} <span> @ $1.00</span>
+              {Number(cryptoAmount).toFixed(5)} <span> @ $1.00</span>
             </div>
-            <div>${fiatAmount}</div>
+            <div>${Number(fiatAmount).toFixed(2)}</div>
           </div>
           <div>
             <div>Processing fee</div>
@@ -80,8 +148,12 @@ export default function Buy() {
 
         <Button
           block
+          onClick={() => {
+            submitEvent()
+          }}
+          disabled={disabled}
           type="submit"
-          style={{ 'background-color': '#3553b0', color: '#fff' }}
+          style={{ backgroundColor: '#3553b0', color: '#fff' }}
           size="large">
           Continue
         </Button>

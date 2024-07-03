@@ -1,7 +1,7 @@
 import Logo from '../../assets/images/logo.png'
 import menu from '../../assets/images/menu.png'
 import { Popup } from 'antd-mobile'
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import { DownOutline } from 'antd-mobile-icons'
 import { useNavigate } from 'react-router-dom'
 // import { Base } from '../../index'
@@ -54,13 +54,17 @@ function Header() {
       visible: false,
       children: [
         {
-          name: 'KYC/KYB',
-          path: '/veriff',
+          name: 'BUY',
+          path: '/email-check',
         },
-        {
-          name: 'AML(KYT)',
-          path: '/wallet',
-        },
+        // {
+        //   name: 'KYC/KYB',
+        //   path: '/veriff',
+        // },
+        // {
+        //   name: 'AML(KYT)',
+        //   path: '/wallet',
+        // },
       ],
     },
   ]

@@ -12,6 +12,7 @@ import Veriff from '../view/Veriff'
 import Wallet from '../view/Wallet'
 import Buy from '../view/Buy'
 import WalletAddress from '../view/Wallet-address'
+import WaitQuery from '../view/WaitQuery'
 const routes = [
   {
     path: '/',
@@ -74,6 +75,10 @@ const routes = [
   {
     path: '/wallet-address',
     element: <WalletAddress />,
+  },
+  {
+    path: '/waitQuery',
+    element: <WaitQuery />,
   },
 ]
 
