@@ -1,0 +1,60 @@
+{
+  "name": "wx-test-react",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@babel/plugin-proposal-decorators": "^7.23.9",
+    "@craco/craco": "^7.1.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@veriff/incontext-sdk": "^1.3.1",
+    "@veriff/js-sdk": "^1.5.1",
+    "amfe-flexible": "^2.2.1",
+    "antd-mobile": "^5.34.0",
+    "axios": "^1.6.7",
+    "craco-less": "^3.0.1",
+    "cross-env": "^7.0.3",
+    "crypto-address-validator-ts": "^0.5.12",
+    "crypto-js": "^4.2.0",
+    "less": "^4.2.0",
+    "lodash": "^4.17.21",
+    "postcss-pxtorem": "^6.1.0",
+    "react": "^18.2.0",
+    "react-activation": "^0.12.4",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.1",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "PORT=13001 craco start",
+    "build": "craco build",
+    "build:dev": "cross-env REACT_APP_ENV=development  craco build",
+    "build:prod": "cross-env REACT_APP_ENV=production  craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject"
+  },
+  "homepage": ".",
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2"
+  }
+}
