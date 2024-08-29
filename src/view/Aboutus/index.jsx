@@ -35,11 +35,11 @@ function Aboutus() {
         </div>
         <div>
           <img src={multicultual} alt="" />
-          Multi culture
+          Multi-cultrue
         </div>
         <div>
           <img src={humanCentric} alt="" />
-          Huiman centric
+          Human centric
         </div>
       </div>
       <div className="partners-wrap">
