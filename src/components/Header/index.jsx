@@ -132,7 +132,7 @@ function Header() {
                       className="menu-child"
                       onClick={() => {
                         setVisible(false)
-                        navigate(i.path, { replace: true, scroll: true })
+                        navigate(i.path)
                       }}>
                       {i.name}
                     </div>
