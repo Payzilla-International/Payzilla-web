@@ -78,7 +78,7 @@ function Header() {
           <span></span>
           <span></span>
         </div>
-        <div className="login-btn">Login</div>
+        {/* <div className="login-btn">Login</div> */}
       </div>
 
       <Popup
