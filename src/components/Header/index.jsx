@@ -1,10 +1,14 @@
 import Logo from '../../assets/images/logo.png'
+import menu from '../../assets/images/menu.png'
 import { Popup } from 'antd-mobile'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { DownOutline } from 'antd-mobile-icons'
 import { useNavigate } from 'react-router-dom'
+import { Base } from '../../index'
+import languagePic from '../../assets/images/language.png'
 import './index.less'
 function Header() {
+  const translate = useContext(Base)
   const navigate = useNavigate()
   const menuData = [
     {
@@ -62,6 +66,17 @@ function Header() {
   ]
   const [visible, setVisible] = useState(false)
   const [menuList, setMenuList] = useState(menuData)
+  const languageAuto = () => {
+    const lg = localStorage.getItem('language')
+    if (lg === 'en') {
+      localStorage.setItem('language', 'zh')
+      translate.changeLanguage('chinese_simplified')
+    } else {
+      localStorage.setItem('language', 'en')
+      translate.changeLanguage('english')
+    }
+    translate.execute()
+  }
   return (
     <div className="header-wrap">
       <img
@@ -78,11 +93,11 @@ function Header() {
           onClick={() => {
             setVisible(true)
           }}>
-          <span></span>
-          <span></span>
-          <span></span>
+          <img src={menu} alt="" />
         </div>
         {/* <div className="login-btn">Login</div> */}
+
+        <img onClick={languageAuto} src={languagePic} alt="" />
       </div>
 
       <Popup

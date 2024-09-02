@@ -17,6 +17,7 @@
     "cross-env": "^7.0.3",
     "crypto-address-validator-ts": "^0.5.12",
     "crypto-js": "^4.2.0",
+    "i18n-jsautotranslate": "^2.6.0",
     "less": "^4.2.0",
     "lodash": "^4.17.21",
     "postcss-pxtorem": "^6.1.0",
