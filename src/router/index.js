@@ -7,9 +7,11 @@ import Career from '../view/Career'
 import Contactus from '../view/Contact-us'
 import AmlKycPolicy from '../view/Aml-kyc-policy'
 import CookiePolicy from '../view/Cookie-policy'
-
+import EmailCheck from '../view/Email-Check'
 import Veriff from '../view/Veriff'
 import Wallet from '../view/Wallet'
+import Buy from '../view/Buy'
+import WalletAddress from '../view/Wallet-address'
 const routes = [
   {
     path: '/',
@@ -60,8 +62,19 @@ const routes = [
   {
     path: '/wallet',
     element: <Wallet />,
-  }
-
+  },
+  {
+    path: '/email-check',
+    element: <EmailCheck />,
+  },
+  {
+    path: '/buy',
+    element: <Buy />,
+  },
+  {
+    path: '/wallet-address',
+    element: <WalletAddress />,
+  },
 ]
 
 export default routes

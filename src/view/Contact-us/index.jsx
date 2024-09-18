@@ -11,7 +11,11 @@ function Contactus() {
         className="form-wrap"
         onFinish={onFinish}
         footer={
-          <Button block type="submit" color="primary" size="large">
+          <Button
+            block
+            type="submit"
+            style={{ 'background-color': '#3553b0', color: '#fff' }}
+            size="large">
             Sumbit
           </Button>
         }>
